@@ -7,6 +7,7 @@ import org.mockito.MockitoAnnotations;
 import tech.talci.api.v1.mapper.CategoryMapper;
 import tech.talci.api.v1.model.CategoryDTO;
 import tech.talci.domain.Category;
+import tech.talci.exceptions.ResourceNotFoundException;
 import tech.talci.repositories.CategoryRepository;
 
 import java.util.ArrayList;
@@ -76,4 +77,5 @@ public class CategoryServiceImplTest {
         assertEquals(ID_VALUE1, returnedDTO.getId());
         assertEquals(NAME_VALUE, returnedDTO.getName());
     }
+
 }

@@ -5,6 +5,7 @@ import tech.talci.api.v1.mapper.CustomerMapper;
 import tech.talci.api.v1.model.CustomerDTO;
 import tech.talci.controllers.v1.CustomerController;
 import tech.talci.domain.Customer;
+import tech.talci.exceptions.ResourceNotFoundException;
 import tech.talci.repositories.CustomerRepository;
 
 import java.util.List;
@@ -93,6 +94,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomerById(Long id) {
-        customerRepository.deleteById(id);
+
+        Optional<Customer> customerOptional = customerRepository.findById(id);
+
+        if(customerOptional.isPresent()){
+            customerRepository.deleteById(id);
+        } else{
+            throw new ResourceNotFoundException("Customer with ID: " + id + " was not found!");
+        }
     }
 }

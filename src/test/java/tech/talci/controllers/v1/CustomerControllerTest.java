@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import tech.talci.api.v1.model.CustomerDTO;
+import tech.talci.domain.Customer;
+import tech.talci.exceptions.ResourceNotFoundException;
 import tech.talci.services.CustomerService;
 
 import java.util.Arrays;
@@ -42,7 +44,10 @@ public class CustomerControllerTest {
     public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(controller)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test
@@ -161,6 +166,16 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk());
 
         verify(customerService, times(1)).deleteCustomerById(anyLong());
+    }
+
+    @Test
+    public void testCustomerNotFound() throws Exception{
+
+        when(customerService.findById(anyLong())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get(CustomerController.BASE_URL + "/99")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     public static String asJsonString(final Object obj) {
