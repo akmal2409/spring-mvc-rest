@@ -8,9 +8,10 @@ import tech.talci.api.v1.model.CustomerListDTO;
 import tech.talci.services.CustomerService;
 
 @RestController
-@RequestMapping("/api/v1/customers/")
+@RequestMapping(CustomerController.BASE_URL)
 public class CustomerController {
 
+    public static final String BASE_URL = "/api/v1/customers";
     private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
@@ -23,7 +24,7 @@ public class CustomerController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id){
         return new ResponseEntity<CustomerDTO>(customerService.findById(id), HttpStatus.OK);
     }
@@ -33,19 +34,19 @@ public class CustomerController {
         return new ResponseEntity<CustomerDTO>(customerService.createNewCustomer(customerDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable Long id){
         return new ResponseEntity<CustomerDTO>(customerService.saveCustomerDTO(id, customerDTO),
                 HttpStatus.OK);
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<CustomerDTO> patchCustomer(@RequestBody CustomerDTO customerDTO, @PathVariable Long id){
         return new ResponseEntity<CustomerDTO>(customerService.patchCustomer(id, customerDTO),
                 HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id){
 
         customerService.deleteCustomerById(id);

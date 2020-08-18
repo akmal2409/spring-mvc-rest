@@ -10,10 +10,12 @@ import tech.talci.api.v1.model.CustomerDTO;
 import tech.talci.services.CategoryService;
 
 @RestController
-@RequestMapping("/api/v1/categories/")
+@RequestMapping(CategoryController.BASE_URL)
 public class CategoryController {
 
     private final CategoryService categoryService;
+
+    public static final String BASE_URL = "/api/v1/categories";
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -25,7 +27,7 @@ public class CategoryController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("{name}")
+    @GetMapping("/{name}")
     public ResponseEntity<CategoryDTO> getCategoryByName(@PathVariable String name){
         return new ResponseEntity<CategoryDTO>(categoryService.getCategoryByName(name), HttpStatus.OK);
     }

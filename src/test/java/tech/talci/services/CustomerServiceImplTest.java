@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tech.talci.api.v1.mapper.CustomerMapper;
 import tech.talci.api.v1.model.CustomerDTO;
+import tech.talci.controllers.v1.CustomerController;
 import tech.talci.domain.Customer;
 import tech.talci.repositories.CustomerRepository;
 
@@ -79,7 +80,7 @@ public class CustomerServiceImplTest {
         CustomerDTO customerDTO = customerService.createNewCustomer(new CustomerDTO());
 
         assertNotNull(customerDTO);
-        assertEquals("/api/v1/customers/1", customerDTO.getCustomerUrl());
+        assertEquals(CustomerController.BASE_URL + "/1", customerDTO.getCustomerUrl());
         verify(customerRepository, times(1)).save(any());
     }
 
@@ -101,6 +102,6 @@ public class CustomerServiceImplTest {
 
         //then
         assertEquals(FIRST_NAME, savedDto.getFirstName());
-        assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
+        assertEquals(CustomerController.BASE_URL + "/1", savedDto.getCustomerUrl());
     }
 }
