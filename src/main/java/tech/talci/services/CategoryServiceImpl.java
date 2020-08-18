@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tech.talci.api.v1.mapper.CategoryMapper;
 import tech.talci.api.v1.model.CategoryDTO;
+import tech.talci.domain.Category;
 import tech.talci.repositories.CategoryRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO getCategoryByName(String name) {
 
         log.debug("Getting category by name: " + name);
+
         return categoryMapper.categoryToCategoryDTO(categoryRepository.findByName(name));
     }
 }

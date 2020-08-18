@@ -21,6 +21,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    /*
     @GetMapping
     public ResponseEntity<CategoryListDTO> getAllCategories(){
         return new ResponseEntity<CategoryListDTO>(new CategoryListDTO(categoryService.getAllCategories()),
@@ -31,4 +32,19 @@ public class CategoryController {
     public ResponseEntity<CategoryDTO> getCategoryByName(@PathVariable String name){
         return new ResponseEntity<CategoryDTO>(categoryService.getCategoryByName(name), HttpStatus.OK);
     }
+     */
+
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryListDTO getAllCategories(){
+        return new CategoryListDTO(categoryService.getAllCategories());
+    }
+
+    @GetMapping("/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryDTO getCategoryByName(@PathVariable String name){
+        return categoryService.getCategoryByName(name);
+    }
+
 }
