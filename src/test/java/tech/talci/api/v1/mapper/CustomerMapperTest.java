@@ -30,4 +30,21 @@ public class CustomerMapperTest {
         assertEquals(FIRST_NAME, customerDTO.getFirstName());
         assertEquals(LAST_NAME, customerDTO.getLastName());
     }
+
+    @Test
+    public void testCustomerDTOToCustomer() {
+        //given
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setId(ID_VALUE);
+        customerDTO.setLastName(LAST_NAME);
+        customerDTO.setFirstName(FIRST_NAME);
+
+        //when
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+
+        //then
+        assertEquals(customer.getId(), ID_VALUE);
+        assertEquals(customer.getFirstName(), FIRST_NAME);
+        assertEquals(customer.getLastName(), LAST_NAME);
+    }
 }

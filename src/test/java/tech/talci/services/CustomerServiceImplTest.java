@@ -23,6 +23,8 @@ public class CustomerServiceImplTest {
     CustomerService customerService;
 
     final static long ID_VALUE = 1L;
+    final static String FIRST_NAME = "Test";
+    final static String LAST_NAME = "TEsst";
 
     @Before
     public void setUp() throws Exception {
@@ -59,5 +61,24 @@ public class CustomerServiceImplTest {
         CustomerDTO returnedDTO = customerService.findById(1L);
         assertNotNull(returnedDTO);
         verify(customerRepository, times(1)).findById(anyLong());
+    }
+
+    @Test
+    public void testCreateNewCustomer() throws Exception{
+        //given
+        Customer customer = new Customer();
+        customer.setId(ID_VALUE);
+        customer.setFirstName(FIRST_NAME);
+        customer.setLastName(LAST_NAME);
+
+
+        //when
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+
+        //then
+        CustomerDTO customerDTO = customerService.createNewCustomer(new CustomerDTO());
+
+        assertNotNull(customerDTO);
+        verify(customerRepository, times(1)).save(any());
     }
 }
