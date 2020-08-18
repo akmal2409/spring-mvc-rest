@@ -79,6 +79,7 @@ public class CustomerServiceImplTest {
         CustomerDTO customerDTO = customerService.createNewCustomer(new CustomerDTO());
 
         assertNotNull(customerDTO);
+        assertEquals("/api/v1/customers/1", customerDTO.getCustomerUrl());
         verify(customerRepository, times(1)).save(any());
     }
 }

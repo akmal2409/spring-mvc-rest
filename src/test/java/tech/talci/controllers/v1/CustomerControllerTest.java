@@ -1,5 +1,6 @@
 package tech.talci.controllers.v1;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -77,5 +78,39 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME_VALUE)));
 
+    }
+
+    @Test
+    public void testCreateCustomer() throws Exception{
+        //given
+        CustomerDTO toSendCustomer = new CustomerDTO();
+        toSendCustomer.setFirstName("First name");
+        toSendCustomer.setLastName("LastName");
+
+        CustomerDTO returnCustomerDto = new CustomerDTO();
+        returnCustomerDto.setId(ID_VALUE);
+        returnCustomerDto.setFirstName(FIRST_NAME_VALUE);
+        returnCustomerDto.setLastName(LAST_NAME_VALUE);
+
+        //when
+        when(customerService.createNewCustomer(toSendCustomer)).thenReturn(returnCustomerDto);
+
+        //then
+        mockMvc.perform(put("/api/v1/customers/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(toSendCustomer)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME_VALUE)))
+                .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/2")));
+    }
+
+    public static String asJsonString(final CustomerDTO customer) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonContent = mapper.writeValueAsString(customer);
+            return jsonContent;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
