@@ -30,6 +30,7 @@ public class CustomerControllerTest {
     static final Long ID_VALUE = 2L;
     static final String FIRST_NAME_VALUE = "Test Name";
     static final String LAST_NAME_VALUE = "Test Last Name";
+    public static final String CUSTOMER_URL = "/api/v1/customers/2";
 
     @Mock
     CustomerService customerService;
@@ -84,19 +85,20 @@ public class CustomerControllerTest {
     public void testCreateCustomer() throws Exception{
         //given
         CustomerDTO toSendCustomer = new CustomerDTO();
-        toSendCustomer.setFirstName("First name");
-        toSendCustomer.setLastName("LastName");
+        toSendCustomer.setFirstName(FIRST_NAME_VALUE);
+        toSendCustomer.setLastName(LAST_NAME_VALUE);
 
         CustomerDTO returnCustomerDto = new CustomerDTO();
         returnCustomerDto.setId(ID_VALUE);
         returnCustomerDto.setFirstName(FIRST_NAME_VALUE);
         returnCustomerDto.setLastName(LAST_NAME_VALUE);
+        returnCustomerDto.setCustomerUrl("/api/v1/customers/2");
 
         //when
         when(customerService.createNewCustomer(toSendCustomer)).thenReturn(returnCustomerDto);
 
         //then
-        mockMvc.perform(put("/api/v1/customers/")
+        mockMvc.perform(post("/api/v1/customers/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(toSendCustomer)))
                 .andExpect(status().isCreated())
@@ -104,10 +106,35 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/2")));
     }
 
-    public static String asJsonString(final CustomerDTO customer) {
+    @Test
+    public void testUpdateCustomer() throws Exception{
+        //given
+        CustomerDTO customer = new CustomerDTO();
+        customer.setFirstName(FIRST_NAME_VALUE);
+        customer.setLastName(LAST_NAME_VALUE);
+
+        CustomerDTO returnDto = new CustomerDTO();
+        returnDto.setLastName(LAST_NAME_VALUE);
+        returnDto.setFirstName(FIRST_NAME_VALUE);
+        returnDto.setCustomerUrl(CUSTOMER_URL);
+
+        //when
+        when(customerService.saveCustomerDTO(ID_VALUE, customer)).thenReturn(returnDto);
+
+        //then
+        mockMvc.perform(put("/api/v1/customers/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(customer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME_VALUE)))
+                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME_VALUE)))
+                .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
+    }
+
+    public static String asJsonString(final Object obj) {
         try {
             final ObjectMapper mapper = new ObjectMapper();
-            final String jsonContent = mapper.writeValueAsString(customer);
+            final String jsonContent = mapper.writeValueAsString(obj);
             return jsonContent;
         } catch (Exception e) {
             throw new RuntimeException(e);
