@@ -1,11 +1,9 @@
 package tech.talci.services;
 
-import org.apache.catalina.startup.Bootstrap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import tech.talci.api.v1.mapper.CustomerMapper;
@@ -54,7 +52,7 @@ public class CustomerServiceImplIT {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setFirstName(updatedName);
 
-        customerService.pathCustomer(id, customerDTO);
+        customerService.patchCustomer(id, customerDTO);
 
         Customer updatedCustomer = customerRepository.findById(id).get();
 
@@ -77,7 +75,7 @@ public class CustomerServiceImplIT {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setLastName(updatedName);
 
-        customerService.pathCustomer(id, customerDTO);
+        customerService.patchCustomer(id, customerDTO);
 
         Customer updatedCustomer = customerRepository.findById(id).get();
 

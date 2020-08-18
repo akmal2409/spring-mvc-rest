@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO pathCustomer(Long id, CustomerDTO customerDTO) {
+    public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
 
         return customerRepository.findById(id).map(customer -> {
 
@@ -78,7 +78,16 @@ public class CustomerServiceImpl implements CustomerService {
             if(customerDTO.getLastName() != null){
                 customer.setLastName(customerDTO.getLastName());
             }
-            return customerMapper.customerToCustomerDTO(customerRepository.save(customer));
+
+            CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(customerRepository.save(customer));
+            returnDTO.setCustomerUrl("/api/v1/customers/" + id);
+
+            return returnDTO;
         }).orElseThrow(RuntimeException::new);
+    }
+
+    @Override
+    public void deleteCustomerById(Long id) {
+        customerRepository.deleteById(id);
     }
 }

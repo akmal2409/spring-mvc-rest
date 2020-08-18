@@ -9,7 +9,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import tech.talci.api.v1.mapper.CustomerMapper;
 import tech.talci.api.v1.model.CustomerDTO;
 import tech.talci.services.CustomerService;
 
@@ -19,8 +18,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -143,7 +141,7 @@ public class CustomerControllerTest {
         returnDTO.setCustomerUrl("/api/v1/customers/1");
 
         //when
-        when(customerService.pathCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
+        when(customerService.patchCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
 
         //then
         mockMvc.perform(patch("/api/v1/customers/1")
@@ -153,6 +151,16 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$.firstName", equalTo("Fred")))
                 .andExpect(jsonPath("$.lastName", equalTo("Bruck")))
                 .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
+    }
+
+    @Test
+    public void testDeleteCustomer() throws Exception{
+
+        mockMvc.perform(delete("/api/v1/customers/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(customerService, times(1)).deleteCustomerById(anyLong());
     }
 
     public static String asJsonString(final Object obj) {
