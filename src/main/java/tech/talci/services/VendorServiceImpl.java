@@ -3,6 +3,7 @@ package tech.talci.services;
 import org.springframework.stereotype.Service;
 import tech.talci.api.v1.mapper.VendorMapper;
 import tech.talci.api.v1.model.VendorDTO;
+import tech.talci.controllers.v1.VendorController;
 import tech.talci.exceptions.ResourceNotFoundException;
 import tech.talci.repositories.VendorRepository;
 
@@ -44,6 +45,6 @@ public class VendorServiceImpl implements VendorService {
     }
 
     public String getVendorUrl(Long id){
-        return "/api/vendors/" + id;
+        return VendorController.BASE_URL + "/" + id;
     }
 }

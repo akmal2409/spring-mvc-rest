@@ -18,7 +18,6 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
 public class VendorServiceImplTest {
 
     @Mock
