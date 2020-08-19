@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import tech.talci.api.v1.model.CustomerDTO;
 import tech.talci.api.v1.model.VendorDTO;
 import tech.talci.services.VendorService;
 
@@ -80,5 +81,15 @@ public class VendorControllerTest {
                 .andExpect(jsonPath("$.id", equalTo(ID)));
 
         verify(vendorService, times(1)).findById(anyLong());
+    }
+
+    @Test
+    public void testCreateVendor() throws Exception{
+        //given
+        VendorDTO vendor = new VendorDTO();
+        vendor.setId(ID);
+        vendor.setName(NAME);
+
+
     }
 }

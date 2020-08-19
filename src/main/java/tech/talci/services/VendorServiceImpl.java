@@ -44,6 +44,16 @@ public class VendorServiceImpl implements VendorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Vendor not found ID: " + id));
     }
 
+    @Override
+    public VendorDTO createNewVendor(VendorDTO vendorDTO) {
+        return null;
+    }
+
+    @Override
+    public VendorDTO saveVendorDTO(Long id, VendorDTO vendorDTO) {
+        return null;
+    }
+
     public String getVendorUrl(Long id){
         return VendorController.BASE_URL + "/" + id;
     }
