@@ -24,6 +24,6 @@ public class VendorController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<VendorDTO> getAllVendors(){
-
+        return null;
     }
 }

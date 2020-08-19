@@ -9,6 +9,7 @@ import tech.talci.exceptions.ResourceNotFoundException;
 import tech.talci.repositories.VendorRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,6 +57,33 @@ public class VendorServiceImpl implements VendorService {
         vendor.setId(id);
 
         return saveAndReturnDTO(vendor);
+    }
+
+    @Override
+    public VendorDTO patchVendor(Long id, VendorDTO vendorDTO) {
+
+        return vendorRepository.findById(id).map(vendor -> {
+
+            if(vendorDTO.getName() != null){
+                vendor.setName(vendorDTO.getName());
+            }
+
+            VendorDTO returnDTO = vendorMapper.vendorToVendorDTO(vendor);
+            returnDTO.setVendorUrl(getVendorUrl(id));
+            return returnDTO;
+        }).orElseThrow(() -> new RuntimeException("Vendor not Found ID: " + id));
+    }
+
+    @Override
+    public void deleteVendorById(Long id) {
+
+        Optional<Vendor> vendorOptional = vendorRepository.findById(id);
+
+        if(vendorOptional.isPresent()){
+            vendorRepository.deleteById(id);
+        } else{
+            throw new ResourceNotFoundException("Vendor Not Found ID: " + id);
+        }
     }
 
     public String getVendorUrl(Long id){

@@ -29,6 +29,7 @@ public class VendorServiceImplTest {
 
     static final Long ID_VALUE = 2L;
     static final String NAME = "Test";
+    static final String UPDATED_NAME = "Test2";
 
     @Before
     public void setUp() throws Exception {
@@ -115,4 +116,6 @@ public class VendorServiceImplTest {
 
         verify(vendorRepository, times(1)).save(any(Vendor.class));
     }
+
+
 }
