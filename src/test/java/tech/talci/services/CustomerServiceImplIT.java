@@ -1,5 +1,6 @@
 package tech.talci.services;
 
+import lombok.AllArgsConstructor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import tech.talci.bootstrap.BootstrapData;
 import tech.talci.domain.Customer;
 import tech.talci.repositories.CategoryRepository;
 import tech.talci.repositories.CustomerRepository;
+import tech.talci.repositories.VendorRepository;
 
 import java.util.List;
 
@@ -27,12 +29,15 @@ public class CustomerServiceImplIT {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    VendorRepository vendorRepository;
+
     CustomerService customerService;
 
     @Before
     public void setUp() throws Exception {
 
-        BootstrapData bootstrapData = new BootstrapData(categoryRepository, customerRepository);
+        BootstrapData bootstrapData = new BootstrapData(categoryRepository, customerRepository, vendorRepository);
         bootstrapData.run();
 
         customerService = new CustomerServiceImpl(CustomerMapper.INSTANCE, customerRepository);
