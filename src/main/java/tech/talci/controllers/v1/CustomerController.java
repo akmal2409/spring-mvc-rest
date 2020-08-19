@@ -1,7 +1,6 @@
 package tech.talci.controllers.v1;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.talci.api.v1.model.CustomerDTO;
 import tech.talci.api.v1.model.CustomerListDTO;
@@ -52,7 +51,6 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteCustomer(@PathVariable Long id){
-
         customerService.deleteCustomerById(id);
     }
 
