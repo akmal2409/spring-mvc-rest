@@ -5,6 +5,8 @@ import org.junit.Test;
 import tech.talci.api.v1.model.VendorDTO;
 import tech.talci.domain.Vendor;
 
+import javax.print.attribute.standard.MediaSize;
+
 import static org.junit.Assert.*;
 
 public class VendorMapperTest {
@@ -28,5 +30,21 @@ public class VendorMapperTest {
         assertNotNull(vendorDTO);
         assertEquals(ID, vendorDTO.getId());
         assertEquals(NAME, vendorDTO.getName());
+    }
+
+    @Test
+    public void vendorDTOToVendor() {
+        //given
+        VendorDTO vendorDTO = new VendorDTO();
+        vendorDTO.setName(NAME);
+        vendorDTO.setId(ID);
+
+        //when
+        Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
+
+        //then
+        assertNotNull(vendor);
+        assertEquals(NAME, vendor.getName());
+        assertEquals(ID, vendor.getId());
     }
 }

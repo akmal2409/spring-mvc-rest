@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import tech.talci.api.v1.mapper.VendorMapper;
 import tech.talci.api.v1.model.VendorDTO;
 import tech.talci.controllers.v1.VendorController;
+import tech.talci.domain.Vendor;
 import tech.talci.exceptions.ResourceNotFoundException;
 import tech.talci.repositories.VendorRepository;
 
@@ -46,7 +47,8 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public VendorDTO createNewVendor(VendorDTO vendorDTO) {
-        return null;
+
+
     }
 
     @Override
@@ -56,5 +58,10 @@ public class VendorServiceImpl implements VendorService {
 
     public String getVendorUrl(Long id){
         return VendorController.BASE_URL + "/" + id;
+    }
+
+    private VendorDTO saveAndReturnDTO(VendorDTO vendorDTO){
+
+        Vendor savedVendor = vendorRepository.save(vendorMapper.vendorToVendorDTO(vendorDTO));
     }
 }
