@@ -68,9 +68,7 @@ public class VendorServiceImpl implements VendorService {
                 vendor.setName(vendorDTO.getName());
             }
 
-            VendorDTO returnDTO = vendorMapper.vendorToVendorDTO(vendor);
-            returnDTO.setVendorUrl(getVendorUrl(id));
-            return returnDTO;
+            return saveAndReturnDTO(vendor);
         }).orElseThrow(() -> new RuntimeException("Vendor not Found ID: " + id));
     }
 

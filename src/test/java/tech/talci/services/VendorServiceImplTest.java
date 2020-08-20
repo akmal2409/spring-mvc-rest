@@ -67,7 +67,6 @@ public class VendorServiceImplTest {
 
         //then
         assertNotNull(vendorDTO);
-        assertEquals(ID_VALUE, vendorDTO.getId());
 
         verify(vendorRepository, times(1)).findById(anyLong());
     }
@@ -88,7 +87,6 @@ public class VendorServiceImplTest {
         assertNotNull(vendorDTO);
         assertEquals(VendorController.BASE_URL + "/2", vendorDTO.getVendorUrl());
         assertEquals(NAME, vendorDTO.getName());
-        assertEquals(ID_VALUE, vendorDTO.getId());
 
         verify(vendorRepository, times(1)).save(any(Vendor.class));
     }
@@ -97,7 +95,6 @@ public class VendorServiceImplTest {
     public void testSaveVendorDTO() {
         //given
         VendorDTO vendorDTO = new VendorDTO();
-        vendorDTO.setId(ID_VALUE);
 
         Vendor savedVendor = new Vendor();
         savedVendor.setName(NAME);
@@ -110,7 +107,6 @@ public class VendorServiceImplTest {
 
         //then
         assertNotNull(returnDTO);
-        assertEquals(ID_VALUE, returnDTO.getId());
         assertEquals(NAME, returnDTO.getName());
         assertEquals(VendorController.BASE_URL + "/2", returnDTO.getVendorUrl());
 

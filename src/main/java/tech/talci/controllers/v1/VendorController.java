@@ -1,11 +1,9 @@
 package tech.talci.controllers.v1;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tech.talci.api.v1.model.VendorDTO;
+import tech.talci.api.v1.model.VendorsListDTO;
 import tech.talci.services.VendorService;
 
 import java.util.List;
@@ -23,7 +21,37 @@ public class VendorController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<VendorDTO> getAllVendors(){
-        return null;
+    public VendorsListDTO getAllVendors(){
+        return new VendorsListDTO(vendorService.getAllVendors());
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public VendorDTO getVendorById(@PathVariable Long id){
+        return vendorService.findById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public VendorDTO createVendor(@RequestBody VendorDTO vendorDTO){
+        return vendorService.createNewVendor(vendorDTO);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public VendorDTO updateVendor(@PathVariable Long id, @RequestBody VendorDTO vendorDTO){
+        return vendorService.saveVendorDTO(id, vendorDTO);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public VendorDTO patchVendor(@PathVariable Long id, @RequestBody VendorDTO vendorDTO){
+        return vendorService.patchVendor(id, vendorDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteVendorById(@PathVariable Long id){
+        vendorService.deleteVendorById(id);
     }
 }

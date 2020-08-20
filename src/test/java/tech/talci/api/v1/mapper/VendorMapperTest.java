@@ -13,7 +13,6 @@ public class VendorMapperTest {
 
     VendorMapper vendorMapper = VendorMapper.INSTANCE;
     static final String NAME = "Name";
-    static final Long ID = 1L;
 
 
     @Test
@@ -21,14 +20,12 @@ public class VendorMapperTest {
         //given
         Vendor vendor = new Vendor();
         vendor.setName(NAME);
-        vendor.setId(ID);
 
         //when
         VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendor);
 
         //then
         assertNotNull(vendorDTO);
-        assertEquals(ID, vendorDTO.getId());
         assertEquals(NAME, vendorDTO.getName());
     }
 
@@ -37,7 +34,6 @@ public class VendorMapperTest {
         //given
         VendorDTO vendorDTO = new VendorDTO();
         vendorDTO.setName(NAME);
-        vendorDTO.setId(ID);
 
         //when
         Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
@@ -45,6 +41,5 @@ public class VendorMapperTest {
         //then
         assertNotNull(vendor);
         assertEquals(NAME, vendor.getName());
-        assertEquals(ID, vendor.getId());
     }
 }
