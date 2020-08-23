@@ -23,6 +23,13 @@
         <module>spring-mvc-rest-app</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+    </dependencies>
+
     <properties>
         <java.version>11</java.version>
         <springfox-swagger2.version>3.0.0</springfox-swagger2.version>
